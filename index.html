@@ -1,10 +1,80 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>My GitHub Website</title>
+<meta charset="UTF-8">
+<title>DELTARUNE Style Website</title>
+
+<style>
+body {
+    background: black;
+    color: white;
+    font-family: "Courier New", monospace;
+    margin: 0;
+    overflow: hidden;
+}
+
+#game {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+#textbox {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+
+    border: 4px solid white;
+    background: black;
+
+    padding: 20px;
+    font-size: 28px;
+    min-height: 120px;
+}
+
+#continue {
+    position: absolute;
+    right: 15px;
+    bottom: 10px;
+    animation: blink 1s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+</style>
 </head>
+
 <body>
-    <h1>Hello, world!</h1>
-    <p>Welcome to my brand new website hosted on GitHub Pages.</p>
+
+<div id="game">
+    <div id="textbox">
+        <span id="text"></span>
+        <span id="continue">▼</span>
+    </div>
+</div>
+
+<script>
+const message =
+"* HELLO THERE.\n* THIS IS A DELTARUNE-STYLE WEBSITE.";
+
+const textElement = document.getElementById("text");
+
+let i = 0;
+
+function typeText() {
+    if (i < message.length) {
+        textElement.textContent += message.charAt(i);
+        i++;
+        setTimeout(typeText, 35);
+    }
+}
+
+typeText();
+</script>
+
 </body>
 </html>
