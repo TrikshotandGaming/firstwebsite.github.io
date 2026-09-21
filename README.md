@@ -4,6 +4,4 @@ HOW MUCH LONGER NOW?
 MY DELTARUNE.
 
 
-A COUNTDOWN TIMER
-
-FOR MY DELTARUNE.
+A countdown for the latest chapters of Deltarune!
