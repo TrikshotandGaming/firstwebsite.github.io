@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,8 +5,8 @@
 
 <title>HOW MUCH LONGER NOW?</title>
 
-<link rel="icon" href="IMG_1932.png">
-<link rel="apple-touch-icon" href="IMG_1932.png">
+<link rel="icon" type="image/png" sizes="40x40" href="./IMG_1932.png?v=2">
+<link rel="apple-touch-icon" href="./IMG_1932.png?v=2">
 
 <style>
 @font-face {
@@ -93,7 +92,7 @@ body {
         <span id="text"></span>
     </div>
 
-    <!-- Centered title and countdown -->
+    <!-- Centered title -->
     <div id="centerText">
         DELTARUNE Chapter 6<br>
         <span id="year">2027</span>
@@ -131,11 +130,7 @@ const textElement = document.getElementById("text");
 const textbox = document.getElementById("textbox");
 
 
-/*
-   Create several copies of the sound ahead of time.
-   This helps Safari play the sounds while the text
-   is being printed.
-*/
+/* Create preloaded copies of the text sound */
 const soundPool = [];
 
 const soundCount = 8;
@@ -154,7 +149,7 @@ for (let i = 0; i < soundCount; i++) {
 let soundIndex = 0;
 
 
-/* Play the text sound */
+/* Play text sound */
 function playTextSound() {
 
     const sound = soundPool[soundIndex];
@@ -184,13 +179,12 @@ function typeText() {
 
         const character = message.charAt(i);
 
-        /* Print the character */
+        /* Print character */
         textElement.textContent += character;
 
-        /* Play a sound for EVERY character */
+        /* Play sound for every character */
         playTextSound();
 
-        /* Move to the next character */
         i++;
 
         /* Typing speed */
@@ -198,7 +192,7 @@ function typeText() {
 
     } else {
 
-        /* Text has finished printing */
+        /* Text has completely finished */
         finishedTyping = true;
     }
 }
@@ -212,7 +206,7 @@ document.addEventListener("click", function() {
 
         started = true;
 
-        /* Show the textbox */
+        /* Show textbox */
         textbox.style.display = "block";
 
         /* Start typing */
@@ -222,10 +216,10 @@ document.addEventListener("click", function() {
     }
 
 
-    /* After the text has completely finished */
+    /* After typing finishes */
     if (finishedTyping) {
 
-        /* Hide the textbox */
+        /* Hide textbox */
         textbox.style.display = "none";
     }
 
@@ -238,7 +232,7 @@ document.addEventListener("click", function() {
 
 const countdown = document.getElementById("countdown");
 
-/* Target: January 1, 2027 at 12:00 AM */
+/* January 1, 2027 at 12:00 AM */
 const targetDate = new Date("January 1, 2027 00:00:00");
 
 
@@ -249,7 +243,7 @@ function updateCountdown() {
     const difference = targetDate - now;
 
 
-    /* Once the countdown reaches zero */
+    /* Countdown finished */
     if (difference <= 0) {
 
         countdown.textContent = "2027";
@@ -258,7 +252,7 @@ function updateCountdown() {
     }
 
 
-    /* Calculate time remaining */
+    /* Calculate remaining time */
 
     const days = Math.floor(
         difference / (1000 * 60 * 60 * 24)
@@ -284,14 +278,12 @@ function updateCountdown() {
 }
 
 
-/* Run immediately */
+/* Start countdown */
 updateCountdown();
 
-/* Update every second */
 setInterval(updateCountdown, 1000);
 
 </script>
 
 </body>
 </html>
-```
