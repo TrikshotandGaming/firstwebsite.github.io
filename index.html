@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <title>MY DELTARUNE.</title>
 
+<link rel="icon" type="image/png" href="IMG_1932.png">
+
 <style>
 @font-face {
     font-family: "Determination Mono";
@@ -93,15 +95,9 @@ function typeText() {
         const letter = message.charAt(i);
         textElement.textContent += letter;
 
-        if (
-            letter !== " " &&
-            letter !== "\n" &&
-            letter !== "*" &&
-            i % 2 === 0
-        ) {
-            textSound.currentTime = 0;
-            textSound.play().catch(() => {});
-        }
+        // Play the sound for EVERY character
+        textSound.currentTime = 0;
+        textSound.play().catch(() => {});
 
         i++;
         setTimeout(typeText, 35);
@@ -111,7 +107,7 @@ function typeText() {
     }
 }
 
-// Many browsers require a user interaction before audio can play.
+// Start after one click so browsers allow audio playback
 document.addEventListener("click", function startDialogue() {
     document.removeEventListener("click", startDialogue);
     typeText();
