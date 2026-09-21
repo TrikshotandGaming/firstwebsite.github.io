@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,6 +75,12 @@ body {
     text-align: center;
     white-space: pre-line;
 }
+
+/* Countdown */
+#countdown {
+    font-size: 32px;
+    margin-top: 10px;
+}
 </style>
 </head>
 
@@ -86,10 +93,11 @@ body {
         <span id="text"></span>
     </div>
 
-    <!-- Centered title -->
+    <!-- Centered title and countdown -->
     <div id="centerText">
         DELTARUNE Chapter 6<br>
-        2027
+        <span id="year">2027</span>
+        <div id="countdown"></div>
     </div>
 
 </div>
@@ -113,6 +121,7 @@ TOMORROW`
 
 ];
 
+
 /* Pick one message randomly */
 const message = messages[Math.floor(Math.random() * messages.length)];
 
@@ -124,8 +133,8 @@ const textbox = document.getElementById("textbox");
 
 /*
    Create several copies of the sound ahead of time.
-   This prevents Safari from having to create a new
-   audio file every time a character is printed.
+   This helps Safari play the sounds while the text
+   is being printed.
 */
 const soundPool = [];
 
@@ -222,7 +231,67 @@ document.addEventListener("click", function() {
 
 });
 
+
+/* =========================
+   COUNTDOWN TIMER
+   ========================= */
+
+const countdown = document.getElementById("countdown");
+
+/* Target: January 1, 2027 at 12:00 AM */
+const targetDate = new Date("January 1, 2027 00:00:00");
+
+
+function updateCountdown() {
+
+    const now = new Date();
+
+    const difference = targetDate - now;
+
+
+    /* Once the countdown reaches zero */
+    if (difference <= 0) {
+
+        countdown.textContent = "2027";
+
+        return;
+    }
+
+
+    /* Calculate time remaining */
+
+    const days = Math.floor(
+        difference / (1000 * 60 * 60 * 24)
+    );
+
+    const hours = Math.floor(
+        (difference / (1000 * 60 * 60)) % 24
+    );
+
+    const minutes = Math.floor(
+        (difference / (1000 * 60)) % 60
+    );
+
+    const seconds = Math.floor(
+        (difference / 1000) % 60
+    );
+
+
+    /* Display countdown */
+
+    countdown.textContent =
+        `${days}D ${hours}H ${minutes}M ${seconds}S`;
+}
+
+
+/* Run immediately */
+updateCountdown();
+
+/* Update every second */
+setInterval(updateCountdown, 1000);
+
 </script>
 
 </body>
 </html>
+```
