@@ -7,10 +7,6 @@
 
 <link rel="icon" href="IMG_1932.png">
 <link rel="apple-touch-icon" href="IMG_1932.png">
-    
-<!-- Tab icon -->
-<link rel="icon" type="image/png" sizes="40x40" href="./IMG_1932.png?v=1">
-<link rel="shortcut icon" type="image/png" href="./IMG_1932.png?v=1">
 
 <style>
 @font-face {
@@ -38,13 +34,13 @@ body {
     position: relative;
 }
 
-/* Dialogue box */
+/* Top dialogue box */
 #textbox {
     position: absolute;
 
     left: 32px;
     right: 32px;
-    bottom: 32px;
+    top: 32px;
 
     height: 180px;
 
@@ -52,14 +48,13 @@ body {
     border: 8px solid white;
 
     box-sizing: border-box;
-
     padding: 24px;
 
     font-size: 32px;
     line-height: 1.4;
 }
 
-/* Dialogue text */
+/* Typed dialogue */
 #text {
     white-space: pre-wrap;
 }
@@ -67,28 +62,31 @@ body {
 /* Continue arrow */
 #continue {
     position: absolute;
-
     right: 18px;
     bottom: 10px;
 
     display: none;
 
-    font-size: 28px;
-
     animation: blink 1s infinite;
 }
 
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
+/* Center text */
+#centerText {
+    position: absolute;
 
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    font-size: 64px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+@keyframes blink {
     50% {
         opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
     }
 }
 </style>
@@ -99,20 +97,21 @@ body {
 <div id="game">
 
     <div id="textbox">
-
         <span id="text"></span>
-
         <span id="continue">▼</span>
+    </div>
 
+    <div id="centerText">
+        DELTARUNE tomorrow
     </div>
 
 </div>
 
 <script>
 const message =
-`* HOW MUCH LONGER NOW?
+`HOW MUCH LONGER NOW?
 
-* MY DELTARUNE.`;
+MY DELTARUNE.`;
 
 const textElement = document.getElementById("text");
 const continueArrow = document.getElementById("continue");
@@ -120,59 +119,34 @@ const continueArrow = document.getElementById("continue");
 let i = 0;
 let started = false;
 
-/*
-    Plays the text sound.
-    A NEW audio object is created every time,
-    so every character gets its own sound.
-*/
 function playTextSound() {
     const sound = new Audio("./snd_text.wav");
-
-    sound.volume = 1.0;
-
-    sound.play().catch(() => {
-        // Browser blocked the sound.
-    });
+    sound.play().catch(() => {});
 }
 
-/*
-    Prints one character at a time.
-*/
 function typeText() {
 
     if (i < message.length) {
 
-        // Get the next character
         const character = message.charAt(i);
 
-        // Print it
         textElement.textContent += character;
 
-        // Play sound for EVERY character
         playTextSound();
 
-        // Move to next character
         i++;
 
-        // Typing speed
         setTimeout(typeText, 35);
 
     } else {
 
-        // Show arrow when finished
         continueArrow.style.display = "block";
     }
 }
 
-/*
-    Browser audio usually requires user interaction.
-    Clicking anywhere starts the dialogue.
-*/
 document.addEventListener("click", function startDialogue() {
 
-    if (started) {
-        return;
-    }
+    if (started) return;
 
     started = true;
 
