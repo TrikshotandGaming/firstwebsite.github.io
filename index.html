@@ -2,22 +2,31 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
 <title>MY DELTARUNE.</title>
 
-<link rel="icon" type="image/png" href="IMG_1932.png">
+<!-- Tab icon -->
+<link rel="icon" type="image/png" sizes="40x40" href="./IMG_1932.png?v=1">
+<link rel="shortcut icon" type="image/png" href="./IMG_1932.png?v=1">
 
 <style>
 @font-face {
     font-family: "Determination Mono";
-    src: url("DeterminationMono.ttf") format("truetype");
+    src: url("./DeterminationMono.ttf") format("truetype");
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: black;
+    color: white;
+    overflow: hidden;
 }
 
 body {
-    background: black;
-    color: white;
     font-family: "Determination Mono", monospace;
-    margin: 0;
-    overflow: hidden;
 }
 
 #game {
@@ -26,8 +35,10 @@ body {
     position: relative;
 }
 
+/* Dialogue box */
 #textbox {
     position: absolute;
+
     left: 32px;
     right: 32px;
     bottom: 32px;
@@ -38,29 +49,43 @@ body {
     border: 8px solid white;
 
     box-sizing: border-box;
+
     padding: 24px;
 
     font-size: 32px;
     line-height: 1.4;
 }
 
+/* Dialogue text */
 #text {
     white-space: pre-wrap;
 }
 
+/* Continue arrow */
 #continue {
     position: absolute;
+
     right: 18px;
     bottom: 10px;
 
     display: none;
 
+    font-size: 28px;
+
     animation: blink 1s infinite;
 }
 
 @keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
     50% {
         opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
     }
 }
 </style>
@@ -69,13 +94,16 @@ body {
 <body>
 
 <div id="game">
-    <div id="textbox">
-        <span id="text"></span>
-        <span id="continue">▼</span>
-    </div>
-</div>
 
-<audio id="textSound" src="snd_text.wav" preload="auto"></audio>
+    <div id="textbox">
+
+        <span id="text"></span>
+
+        <span id="continue">▼</span>
+
+    </div>
+
+</div>
 
 <script>
 const message =
@@ -85,31 +113,68 @@ const message =
 
 const textElement = document.getElementById("text");
 const continueArrow = document.getElementById("continue");
-const textSound = document.getElementById("textSound");
 
 let i = 0;
+let started = false;
 
+/*
+    Plays the text sound.
+    A NEW audio object is created every time,
+    so every character gets its own sound.
+*/
+function playTextSound() {
+    const sound = new Audio("./snd_text.wav");
+
+    sound.volume = 1.0;
+
+    sound.play().catch(() => {
+        // Browser blocked the sound.
+    });
+}
+
+/*
+    Prints one character at a time.
+*/
 function typeText() {
+
     if (i < message.length) {
 
-        const letter = message.charAt(i);
-        textElement.textContent += letter;
+        // Get the next character
+        const character = message.charAt(i);
 
-        // Play the sound for EVERY character
-        textSound.currentTime = 0;
-        textSound.play().catch(() => {});
+        // Print it
+        textElement.textContent += character;
 
+        // Play sound for EVERY character
+        playTextSound();
+
+        // Move to next character
         i++;
+
+        // Typing speed
         setTimeout(typeText, 35);
 
     } else {
+
+        // Show arrow when finished
         continueArrow.style.display = "block";
     }
 }
 
-// Start after one click so browsers allow audio playback
+/*
+    Browser audio usually requires user interaction.
+    Clicking anywhere starts the dialogue.
+*/
 document.addEventListener("click", function startDialogue() {
+
+    if (started) {
+        return;
+    }
+
+    started = true;
+
     document.removeEventListener("click", startDialogue);
+
     typeText();
 });
 </script>
