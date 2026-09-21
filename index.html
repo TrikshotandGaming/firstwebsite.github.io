@@ -5,7 +5,6 @@
 
 <title>HOW MUCH LONGER NOW?</title>
 
-<!-- Website icon -->
 <link rel="icon" href="IMG_1932.png">
 <link rel="apple-touch-icon" href="IMG_1932.png">
 
@@ -75,7 +74,6 @@ body {
     text-align: center;
     white-space: pre-line;
 }
-
 </style>
 </head>
 
@@ -97,6 +95,8 @@ body {
 </div>
 
 <script>
+
+/* Three possible dialogue messages */
 const messages = [
 
 `HOW MUCH LONGER NOW?
@@ -113,21 +113,59 @@ TOMORROW`
 
 ];
 
+/* Pick one message randomly */
 const message = messages[Math.floor(Math.random() * messages.length)];
 
+
+/* Get page elements */
 const textElement = document.getElementById("text");
 const textbox = document.getElementById("textbox");
 
-let i = 0;
-let started = false;
-let finishedTyping = false;
+
+/*
+   Create several copies of the sound ahead of time.
+   This prevents Safari from having to create a new
+   audio file every time a character is printed.
+*/
+const soundPool = [];
+
+const soundCount = 8;
+
+for (let i = 0; i < soundCount; i++) {
+
+    const sound = new Audio("./snd_text.wav");
+
+    sound.preload = "auto";
+
+    soundPool.push(sound);
+}
+
+
+/* Keeps track of which sound copy to use */
+let soundIndex = 0;
 
 
 /* Play the text sound */
 function playTextSound() {
-    const sound = new Audio("./snd_text.wav");
+
+    const sound = soundPool[soundIndex];
+
+    sound.currentTime = 0;
+
     sound.play().catch(() => {});
+
+    soundIndex++;
+
+    if (soundIndex >= soundPool.length) {
+        soundIndex = 0;
+    }
 }
+
+
+/* Typing variables */
+let i = 0;
+let started = false;
+let finishedTyping = false;
 
 
 /* Type one character at a time */
@@ -137,18 +175,21 @@ function typeText() {
 
         const character = message.charAt(i);
 
+        /* Print the character */
         textElement.textContent += character;
 
-        /* Play sound for every character */
+        /* Play a sound for EVERY character */
         playTextSound();
 
+        /* Move to the next character */
         i++;
 
+        /* Typing speed */
         setTimeout(typeText, 35);
 
     } else {
 
-        /* The text is completely finished */
+        /* Text has finished printing */
         finishedTyping = true;
     }
 }
@@ -172,7 +213,7 @@ document.addEventListener("click", function() {
     }
 
 
-    /* Any later click after typing is finished */
+    /* After the text has completely finished */
     if (finishedTyping) {
 
         /* Hide the textbox */
@@ -180,6 +221,7 @@ document.addEventListener("click", function() {
     }
 
 });
+
 </script>
 
 </body>
