@@ -73,28 +73,49 @@ body {
     </div>
 </div>
 
+<audio id="textSound" src="snd_text.wav" preload="auto"></audio>
+
 <script>
 const message =
-`HOW MUCH LONGER NOW?
+`* HOW MUCH LONGER NOW?
 
-MY DELTARUNE.`;
+* MY DELTARUNE.`;
 
 const textElement = document.getElementById("text");
 const continueArrow = document.getElementById("continue");
+const textSound = document.getElementById("textSound");
 
 let i = 0;
 
 function typeText() {
     if (i < message.length) {
-        textElement.textContent += message.charAt(i);
+
+        const letter = message.charAt(i);
+        textElement.textContent += letter;
+
+        if (
+            letter !== " " &&
+            letter !== "\n" &&
+            letter !== "*" &&
+            i % 2 === 0
+        ) {
+            textSound.currentTime = 0;
+            textSound.play().catch(() => {});
+        }
+
         i++;
         setTimeout(typeText, 35);
+
     } else {
         continueArrow.style.display = "block";
     }
 }
 
-typeText();
+// Many browsers require a user interaction before audio can play.
+document.addEventListener("click", function startDialogue() {
+    document.removeEventListener("click", startDialogue);
+    typeText();
+});
 </script>
 
 </body>
