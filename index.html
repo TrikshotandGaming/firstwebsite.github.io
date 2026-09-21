@@ -26,23 +26,33 @@ body {
 
 #textbox {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    right: 20px;
+    left: 32px;
+    right: 32px;
+    bottom: 32px;
 
-    border: 4px solid white;
+    height: 180px;
+
     background: black;
+    border: 8px solid white;
 
-    padding: 20px;
-    font-size: 28px;
-    min-height: 120px;
     box-sizing: border-box;
+    padding: 24px;
+
+    font-size: 32px;
+    line-height: 1.4;
+}
+
+#text {
+    white-space: pre-wrap;
 }
 
 #continue {
     position: absolute;
-    right: 15px;
+    right: 18px;
     bottom: 10px;
+
+    display: none;
+
     animation: blink 1s infinite;
 }
 
@@ -65,9 +75,12 @@ body {
 
 <script>
 const message =
-"* HOW MUCH LONGER NOW?\n* MY DELTARUNE.";
+`HOW MUCH LONGER NOW?
+
+MY DELTARUNE.`;
 
 const textElement = document.getElementById("text");
+const continueArrow = document.getElementById("continue");
 
 let i = 0;
 
@@ -76,6 +89,8 @@ function typeText() {
         textElement.textContent += message.charAt(i);
         i++;
         setTimeout(typeText, 35);
+    } else {
+        continueArrow.style.display = "block";
     }
 }
 
