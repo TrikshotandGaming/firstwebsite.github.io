@@ -5,6 +5,7 @@
 
 <title>HOW MUCH LONGER NOW?</title>
 
+<!-- Website icon -->
 <link rel="icon" href="IMG_1932.png">
 <link rel="apple-touch-icon" href="IMG_1932.png">
 
@@ -34,7 +35,7 @@ body {
     position: relative;
 }
 
-/* Top dialogue box */
+/* Bottom dialogue box */
 #textbox {
     display: none;
 
@@ -42,7 +43,7 @@ body {
 
     left: 32px;
     right: 32px;
-    top: 32px;
+    bottom: 32px;
 
     height: 180px;
 
@@ -61,18 +62,7 @@ body {
     white-space: pre-wrap;
 }
 
-/* Continue arrow */
-#continue {
-    position: absolute;
-    right: 18px;
-    bottom: 10px;
-
-    display: none;
-
-    animation: blink 1s infinite;
-}
-
-/* Center text */
+/* Center title text */
 #centerText {
     position: absolute;
 
@@ -86,11 +76,6 @@ body {
     white-space: pre-line;
 }
 
-@keyframes blink {
-    50% {
-        opacity: 0;
-    }
-}
 </style>
 </head>
 
@@ -98,11 +83,12 @@ body {
 
 <div id="game">
 
+    <!-- Bottom dialogue box -->
     <div id="textbox">
         <span id="text"></span>
-        <span id="continue">▼</span>
     </div>
 
+    <!-- Centered title -->
     <div id="centerText">
         DELTARUNE Chapter 6<br>
         2027
@@ -117,17 +103,21 @@ const message =
 MY DELTARUNE.`;
 
 const textElement = document.getElementById("text");
-const continueArrow = document.getElementById("continue");
 const textbox = document.getElementById("textbox");
 
 let i = 0;
 let started = false;
+let finishedTyping = false;
 
+
+/* Play the text sound */
 function playTextSound() {
     const sound = new Audio("./snd_text.wav");
     sound.play().catch(() => {});
 }
 
+
+/* Type one character at a time */
 function typeText() {
 
     if (i < message.length) {
@@ -136,6 +126,7 @@ function typeText() {
 
         textElement.textContent += character;
 
+        /* Play sound for every character */
         playTextSound();
 
         i++;
@@ -144,21 +135,37 @@ function typeText() {
 
     } else {
 
-        continueArrow.style.display = "block";
+        /* The text is completely finished */
+        finishedTyping = true;
     }
 }
 
-document.addEventListener("click", function startDialogue() {
 
-    if (started) return;
+/* Handle clicks */
+document.addEventListener("click", function() {
 
-    started = true;
+    /* First click */
+    if (!started) {
 
-    document.removeEventListener("click", startDialogue);
+        started = true;
 
-    textbox.style.display = "block";
+        /* Show the textbox */
+        textbox.style.display = "block";
 
-    typeText();
+        /* Start typing */
+        typeText();
+
+        return;
+    }
+
+
+    /* Any later click after typing is finished */
+    if (finishedTyping) {
+
+        /* Hide the textbox */
+        textbox.style.display = "none";
+    }
+
 });
 </script>
 
