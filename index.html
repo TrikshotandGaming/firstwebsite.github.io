@@ -5,8 +5,8 @@
 
 <title>HOW MUCH LONGER NOW?</title>
 
-<link rel="icon" type="image/png" sizes="40x40" href="./IMG_1932.png?v=2">
-<link rel="apple-touch-icon" href="./IMG_1932.png?v=2">
+<link rel="icon" type="image/png" sizes="40x40" href="./tab-icon.png?v=2">
+<link rel="apple-touch-icon" href="./tab-icon.png?v=2">
 
 <style>
 @font-face {
@@ -92,7 +92,7 @@ body {
         <span id="text"></span>
     </div>
 
-    <!-- Centered title -->
+    <!-- Title -->
     <div id="centerText">
         DELTARUNE Chapter 6<br>
         <span id="year">2027</span>
@@ -103,7 +103,7 @@ body {
 
 <script>
 
-/* Three possible dialogue messages */
+/* Three dialogue messages */
 const messages = [
 
 `HOW MUCH LONGER NOW?
@@ -121,7 +121,7 @@ TOMORROW`
 ];
 
 
-/* Pick one message randomly */
+/* Randomizer */
 const message = messages[Math.floor(Math.random() * messages.length)];
 
 
@@ -130,7 +130,7 @@ const textElement = document.getElementById("text");
 const textbox = document.getElementById("textbox");
 
 
-/* Create preloaded copies of the text sound */
+/* Preloaded copies of the text sound */
 const soundPool = [];
 
 const soundCount = 8;
@@ -179,7 +179,6 @@ function typeText() {
 
         const character = message.charAt(i);
 
-        /* Print character */
         textElement.textContent += character;
 
         /* Play sound for every character */
@@ -192,7 +191,6 @@ function typeText() {
 
     } else {
 
-        /* Text has completely finished */
         finishedTyping = true;
     }
 }
@@ -232,7 +230,6 @@ document.addEventListener("click", function() {
 
 const countdown = document.getElementById("countdown");
 
-/* January 1, 2027 at 12:00 AM */
 const targetDate = new Date("January 1, 2027 00:00:00");
 
 
