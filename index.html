@@ -21,7 +21,7 @@ body {
     margin: 0;
     background: black;
     color: white;
-    overflow: auto;
+    overflow: hidden;
 }
 
 body {
@@ -32,6 +32,33 @@ body {
     width: 100vw;
     height: 100vh;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+    box-sizing: border-box;
+}
+
+/* Center title text */
+#centerText {
+    font-size: 48px;
+    text-align: center;
+    white-space: pre-line;
+    margin-bottom: 20px;
+}
+
+/* Countdown */
+#countdown {
+    font-size: 28px;
+    margin-top: 10px;
+}
+
+/* X timeline wrapper */
+#twitterBox {
+    width: 400px;
+    max-width: 90vw;
+    z-index: 2;
 }
 
 /* Bottom dialogue box */
@@ -54,6 +81,7 @@ body {
 
     font-size: 32px;
     line-height: 1.4;
+    z-index: 10;
 }
 
 /* Typed dialogue */
@@ -61,30 +89,6 @@ body {
     white-space: pre-wrap;
 }
 
-/* Center title text */
-#centerText {
-    position: absolute;
-
-    top: 50%;
-    left: 50%;
-
-    transform: translate(-50%, -50%);
-
-    font-size: 64px;
-    text-align: center;
-    white-space: pre-line;
-}
-
-/* Countdown */
-#countdown {
-    font-size: 32px;
-    margin-top: 10px;
-}
-
-#twitterBox {
-    width: 400px;
-    margin: 20px auto;
-}
 </style>
 </head>
 
@@ -92,37 +96,34 @@ body {
 
 <div id="game">
 
-    <!-- Bottom dialogue box -->
-    <div id="textbox">
-        <span id="text"></span>
-    </div>
-
-    <!-- Title -->
+    <!-- Title & Countdown -->
     <div id="centerText">
         DELTARUNE Chapter 6<br>
         <span id="year">2027</span>
         <div id="countdown"></div>
     </div>
 
+    <!-- X timeline -->
+    <div id="twitterBox">
+        <a
+            class="twitter-timeline"
+            data-theme="dark"
+            data-height="400"
+            href="https://twitter.com/tobyfox?ref_src=twsrc%5Etfw"
+        >
+            Posts by Toby Fox
+        </a>
+    </div>
+
+    <!-- Bottom dialogue box -->
+    <div id="textbox">
+        <span id="text"></span>
+    </div>
+
 </div>
 
-<!-- X timeline -->
-<div id="twitterBox">
-    <a
-        class="twitter-timeline"
-        data-theme="dark"
-        data-height="500"
-        href="https://x.com/tobyfox"
-    >
-        Posts by tobyfox
-    </a>
-</div>
-
-<script
-    async
-    src="https://platform.x.com/widgets.js"
-    charset="utf-8"
-></script>
+<!-- Official X Widgets Script -->
+<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
 
 <script>
 
@@ -220,7 +221,12 @@ function typeText() {
 
 
 /* Handle clicks */
-document.addEventListener("click", function() {
+document.addEventListener("click", function(e) {
+
+    /* Ignore clicks inside the twitter feed so links remain clickable */
+    if (e.target.closest("#twitterBox")) {
+        return;
+    }
 
     /* First click */
     if (!started) {
@@ -302,8 +308,6 @@ function updateCountdown() {
 updateCountdown();
 
 setInterval(updateCountdown, 1000);
-
-
 
 </script>
 
