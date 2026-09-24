@@ -5,8 +5,8 @@
 
 <title>HOW MUCH LONGER NOW?</title>
 
-<link rel="icon" type="image/png" sizes="40x40" href="./tab-icon.png?v=2">
-<link rel="apple-touch-icon" href="./tab-icon.png?v=2">
+<link rel="icon" type="image/png" sizes="40x40" href="./tab-icon.png">
+<link rel="apple-touch-icon" href="./tab-icon.png">
 
 <style>
 @font-face {
@@ -56,12 +56,11 @@ body {
     line-height: 1.4;
 }
 
-/* Typed dialogue */
 #text {
     white-space: pre-wrap;
 }
 
-/* Center title text */
+/* Center title */
 #centerText {
     position: absolute;
 
@@ -81,11 +80,23 @@ body {
     margin-top: 10px;
 }
 
-/* X timeline */
-#twitterBox {
-    width: 400px;
-    max-width: calc(100vw - 40px);
-    margin: 20px auto;
+/* Posts button */
+#postsButton {
+    position: absolute;
+
+    left: 50%;
+    bottom: 25px;
+
+    transform: translateX(-50%);
+
+    color: white;
+    text-decoration: none;
+
+    font-size: 24px;
+}
+
+#postsButton:hover {
+    text-decoration: underline;
 }
 </style>
 </head>
@@ -99,32 +110,19 @@ body {
         <span id="text"></span>
     </div>
 
-    <!-- Title -->
+    <!-- Centered title -->
     <div id="centerText">
         DELTARUNE Chapter 6<br>
         <span id="year">2027</span>
         <div id="countdown"></div>
     </div>
 
-</div>
-
-<!-- X timeline -->
-<div id="twitterBox">
-    <a
-        class="twitter-timeline"
-        data-theme="dark"
-        data-height="500"
-        href="https://twitter.com/tobyfox?ref_src=twsrc%5Etfw"
-    >
-        Posts by Toby Fox
+    <!-- Link to posts page -->
+    <a id="postsButton" href="posts.html">
+        TOBY FOX POSTS
     </a>
-</div>
 
-<script
-    async
-    src="https://platform.x.com/widgets.js"
-    charset="utf-8"
-></script>
+</div>
 
 <script>
 
@@ -145,17 +143,16 @@ TOMORROW`
 
 ];
 
+const message =
+messages[Math.floor(Math.random() * messages.length)];
 
-/* Randomizer */
-const message = messages[Math.floor(Math.random() * messages.length)];
 
-
-/* Get page elements */
+/* Page elements */
 const textElement = document.getElementById("text");
 const textbox = document.getElementById("textbox");
 
 
-/* Preloaded copies of the text sound */
+/* Sound pool */
 const soundPool = [];
 
 const soundCount = 8;
@@ -169,8 +166,6 @@ for (let i = 0; i < soundCount; i++) {
     soundPool.push(sound);
 }
 
-
-/* Keeps track of which sound copy to use */
 let soundIndex = 0;
 
 
@@ -180,7 +175,6 @@ function playTextSound() {
     const sound = soundPool[soundIndex];
 
     sound.currentTime = 0;
-
     sound.play().catch(() => {});
 
     soundIndex++;
@@ -191,13 +185,12 @@ function playTextSound() {
 }
 
 
-/* Typing variables */
+/* Typing */
 let i = 0;
 let started = false;
 let finishedTyping = false;
 
 
-/* Type one character at a time */
 function typeText() {
 
     if (i < message.length) {
@@ -206,12 +199,10 @@ function typeText() {
 
         textElement.textContent += character;
 
-        /* Play sound for every character */
         playTextSound();
 
         i++;
 
-        /* Typing speed */
         setTimeout(typeText, 35);
 
     } else {
@@ -221,60 +212,54 @@ function typeText() {
 }
 
 
-/* Handle clicks */
-document.addEventListener("click", function() {
+/* Click handling */
+document.addEventListener("click", function(event) {
 
-    /* First click */
+    /* Don't trigger the dialogue when clicking the posts link */
+    if (event.target.closest("#postsButton")) {
+        return;
+    }
+
     if (!started) {
 
         started = true;
 
-        /* Show textbox */
         textbox.style.display = "block";
 
-        /* Start typing */
         typeText();
 
         return;
     }
 
-
-    /* After typing finishes */
     if (finishedTyping) {
 
-        /* Hide textbox */
         textbox.style.display = "none";
     }
 
 });
 
 
-/* =========================
-   COUNTDOWN TIMER
-   ========================= */
+/* Countdown */
+const countdown =
+document.getElementById("countdown");
 
-const countdown = document.getElementById("countdown");
-
-const targetDate = new Date("January 1, 2027 00:00:00");
+const targetDate =
+new Date("January 1, 2027 00:00:00");
 
 
 function updateCountdown() {
 
     const now = new Date();
 
-    const difference = targetDate - now;
+    const difference =
+    targetDate - now;
 
-
-    /* Countdown finished */
     if (difference <= 0) {
 
         countdown.textContent = "2027";
 
         return;
     }
-
-
-    /* Calculate remaining time */
 
     const days = Math.floor(
         difference / (1000 * 60 * 60 * 24)
@@ -292,15 +277,10 @@ function updateCountdown() {
         (difference / 1000) % 60
     );
 
-
-    /* Display countdown */
-
     countdown.textContent =
         `${days}D ${hours}H ${minutes}M ${seconds}S`;
 }
 
-
-/* Start countdown */
 updateCountdown();
 
 setInterval(updateCountdown, 1000);
