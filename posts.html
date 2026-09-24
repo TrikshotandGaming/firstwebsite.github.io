@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>New Posts</title>
+
+<link rel="icon" type="image/png" sizes="40x40" href="./tab-icon.png">
+<link rel="apple-touch-icon" href="./tab-icon.png">
+
+<style>
+@font-face {
+    font-family: "Determination Mono";
+    src: url("./DeterminationMono.ttf") format("truetype");
+}
+
+html,
+body {
+    margin: 0;
+    background: black;
+    color: white;
+    font-family: "Determination Mono", monospace;
+}
+
+body {
+    padding: 30px;
+    box-sizing: border-box;
+}
+
+/* Page title */
+#title {
+    text-align: center;
+    font-size: 48px;
+    margin-bottom: 30px;
+}
+
+/* Post */
+.post {
+    max-width: 700px;
+    margin: 0 auto 25px auto;
+
+    border: 6px solid white;
+    padding: 20px;
+
+    box-sizing: border-box;
+}
+
+/* Post date */
+.date {
+    font-size: 20px;
+    margin-bottom: 15px;
+    opacity: 0.7;
+}
+
+/* Post text */
+.postText {
+    font-size: 28px;
+    line-height: 1.4;
+
+    white-space: pre-wrap;
+}
+
+/* Back button */
+#back {
+    display: block;
+
+    width: fit-content;
+    margin: 30px auto 0 auto;
+
+    color: white;
+    text-decoration: none;
+
+    font-size: 24px;
+}
+
+#back:hover {
+    text-decoration: underline;
+}
+
+/* Post image */
+.postImage {
+    width: 100%;
+    height: auto;
+
+    margin-top: 15px;
+
+    image-rendering: auto;
+}
+</style>
+</head>
+
+<body>
+
+<div id="title">
+    Most Recent
+</div>
+
+
+<!-- POST #1 -->
+<div class="post">
+
+    <div class="date">
+        5:01 PM - SEP 15 2026
+    </div>
+
+    <div class="postText">
+It's the 11th Anniversary of UNDERTALE. 
+
+After the super high-effort event of the 10th
+
+This year I slept in.
+
+Thank you everyone for caring so much about my game. It makes my dreams better.
+    </div>
+
+</div>
+
+
+<!-- POST #2 -->
+<div class="post">
+
+    <div class="date">
+        10:00 PM - AUG 5 2026
+    </div>
+
+    <div class="postText">
+It's been a little over a month since Chapter 5 released, how about a new newsletter? It should be sending out now!
+https://toby.fangamer.com/newsletters/summer26/
+    </div>
+
+</div>
+
+
+<!-- Back to main page -->
+<a id="back" href="index.html">
+    &lt; BACK
+</a>
+
+</body>
+</html>
